@@ -1,2 +1,2 @@
 # scam-baiter
-A multidimensional scam bot powered by AI
+A multidimensional scam bait bot powered by AI
