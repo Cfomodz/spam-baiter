@@ -1,7 +1,7 @@
 # spam-baiter
 This repository contains a Python project illustrating the potential to interact with scammers and spammers in an automated manner.
 
-# Why do people talk to scammers/spammers?
+## Why do people talk to scammers/spammers?
 What they are doing is illegal, it's wrong, and it hurts real people. This includes both outright scamming such as tech support scams, IRS tax debt scams, and telemarketing practices that violate TCPA including robodialing, pre-recorded messages, non-compliance with the TSR, and just general fraud as is seen in the scammer docs dir of this repo.
 
 A couple of examples of direct scam interventions that illustrate what they intend to do to victims:
