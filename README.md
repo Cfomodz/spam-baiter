@@ -5,7 +5,9 @@ This repository contains a Python project illustrating the potential to interact
 What they are doing is illegal, it's wrong, and it hurts real people. This includes both outright scamming such as tech support scams, IRS tax debt scams, and telemarketing practices that violate TCPA including robodialing, pre-recorded messages, non-compliance with the TSR, and just general fraud as is seen in the scammer docs dir of this repo.
 
 A couple of examples of direct scam interventions that illustrate what they intend to do to victims:
+
 https://www.youtube.com/watch?v=tzXRb8PdmJo
+
 https://www.youtube.com/watch?v=FtgynBMUYF4
 
 ## Files in this Repository
