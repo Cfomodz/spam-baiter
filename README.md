@@ -53,7 +53,9 @@ v0.? Throughout the versions, we will add more known scam scripts (and associate
 
 ## How to contribute
 This is a free project. Please fork it and play. Open an issue or PR any time. Share what you make.
+
 For less directly scripted conversations, voice line files should still be used to limit the repetitive calling of Elevinlabs API.
+
 If you request voice lines be created for new responses, please ensure they are formatted correctly. For instance, "6130 W N St" becomes "Sixty One Thirty West North Street" and the use of punctuation to convey tone.
 
 ## Disclaimer
