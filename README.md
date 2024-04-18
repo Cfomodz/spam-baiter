@@ -1,9 +1,16 @@
 # spam-baiter
-This repository contains a Python script illustrating the potential to interact with scammers and spammers in an automated manner.
+This repository contains a Python project illustrating the potential to interact with scammers and spammers in an automated manner.
+
+# Why do people talk to scammers/spammers?
+What they are doing is illegal, it's wrong, and it hurts real people. This includes both outright scamming such as tech support scams, IRS tax debt scams, and telemarketing practices that violate TCPA including robodialing, pre-recorded messages, non-compliance with the TSR, and just general fraud as is seen in the scammer docs dir of this repo.
+
+A couple of examples of direct scam interventions that illustrate what they intend to do to victims:
+https://www.youtube.com/watch?v=tzXRb8PdmJo
+https://www.youtube.com/watch?v=FtgynBMUYF4
 
 ## Files in this Repository
 
-- `voice_search_baiter.py`: This is the main Python script that handles the interaction with the scammer. It uses the PyAudio library to play the audio files and listens for silence to determine when the scammer has finished speaking.
+- `voice_search_baiter.py`: This Python script drives a back-and-forth with the spammer following their specific script. It uses the PyAudio library to play the audio files and listens for silence to determine when the scammer has finished speaking.
 
 - `requirements.txt`: This file lists the Python dependencies that need to be installed for the script to run.
 
