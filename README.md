@@ -60,6 +60,10 @@ For less directly scripted conversations, voice line files should still be used 
 
 If you request voice lines be created for new responses, please ensure they are formatted correctly. For instance, "6130 W N St" becomes "Sixty One Thirty West North Street" and the use of punctuation to convey tone.
 
+## License
+
+[LGPL 2.1](https://choosealicense.com/licenses/lgpl-2.1/)
+
 ## Disclaimer
 
 This script is intended for educational purposes only. Please use responsibly.
