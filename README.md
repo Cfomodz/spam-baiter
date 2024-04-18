@@ -27,13 +27,21 @@ Please note that the script is currently set up to use specific input and output
 
 ## Roadmap
 The script (v0.1) uses pre-recorded audio files to respond to the spammers' prompts.
+
 v0.1.1 Clean things up so they are more easily configurable for a new setup (specifically audio input & output devices + some docs/docstrings)
+
 v0.2 will be implementing a generalized baiter with much more flexibility utilizing Whisper to detect spammers' utterances and pick a response
+
 v0.3 will bring live AI-generated voice responses via ElevenLabs API + Chat GPT 4 via OpenAI API (or Ollama + model of choice).
+
 v0.4 softphone packaged with the repo; probably a customized version of disphone or something 🤷‍♂️ - open to suggestions. Sending commands to a js-based browser softphone API is also an option. This will allow for programmatic dialing (currently you just call it once the call is active)
+
 v0.5 Having the softphone integration will naturally open up the benefits of building out contacts, notes, recordings, categories, and statuses (blocked, OOS, etc) so that you can work more efficiently.
+
 v0.? Twilio integration since that is more accessible than having a SIP trunk.
+
 v0.? TextNow Bot integration - it can text!
+
 v0.? Throughout the versions, we will add more known scam scripts (and associated responses) as supplied by the community.
 
 ## How to contribute
