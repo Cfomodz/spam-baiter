@@ -1,4 +1,7 @@
+<p align="center"><img width="25%" src="https://github.com/Cfomodz/spam-baiter/assets/31261577/5894d96b-6984-46b1-b6c9-a01bc6f18904"></p>
+
 # spam-baiter
+
 This repository contains a Python project illustrating the potential to interact with scammers and spammers in an automated manner.
 
 ## Why do people talk to scammers/spammers?
