@@ -1,10 +1,21 @@
+<div align="center">
+
+# 🎣 Spam Baiter  
+![GitHub License](https://img.shields.io/github/license/Cfomodz/spam-baiter)
+![Python](https://img.shields.io/badge/Python-3.12-blue)
+![GitHub Sponsors](https://img.shields.io/github/sponsors/Cfomodz)
+![Discord](https://img.shields.io/discord/425182625032962049)
+![GitHub Repo stars](https://img.shields.io/github/stars/cfomodz/spam-baiter?style=flat)
+
 <p align="center"><img width="25%" src="https://github.com/Cfomodz/spam-baiter/assets/31261577/5894d96b-6984-46b1-b6c9-a01bc6f18904"></p>
 
-# spam-baiter
+### Automate interactions with scammers and spammers using Python  
 
-This repository contains a Python project illustrating the potential to interact with scammers and spammers in an automated manner.
+---
 
-## Why do people talk to scammers/spammers?
+🚨 **Why bother talking to scammers/spammers?**  
+</div>
+
 What they are doing is illegal, it's wrong, and it hurts real people. This includes both outright scamming such as tech support scams, IRS tax debt scams, and telemarketing practices that violate TCPA including robodialing, pre-recorded messages, non-compliance with the TSR, and just general fraud as is seen in the scammer docs dir of this repo.
 
 A couple of examples of direct scam interventions that illustrate what they intend to do to victims:
