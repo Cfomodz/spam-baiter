@@ -57,7 +57,9 @@ async def update_group(
     if body.notes is not None:
         group.notes = body.notes
     await db.commit()
-    await db.refresh(group, attribute_names=["phone_numbers"])
+    # updated_at is set server-side by onupdate and expires on commit; it must
+    # be refreshed explicitly or serialization triggers a sync lazy-load.
+    await db.refresh(group, attribute_names=["updated_at", "phone_numbers"])
     return group
 
 

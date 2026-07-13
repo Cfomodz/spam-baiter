@@ -7,12 +7,24 @@ import httpx
 from ..config import settings
 
 
+class TTSNotConfiguredError(Exception):
+    """Raised when no ElevenLabs API key is configured."""
+
+
 class TTSService:
     def __init__(self) -> None:
         self._voices_cache: list[dict] | None = None
         self._cache_time: float = 0
 
+    def _require_api_key(self) -> None:
+        if not settings.elevenlabs_api_key:
+            raise TTSNotConfiguredError(
+                "ElevenLabs TTS is not configured. "
+                "Set ELEVENLABS_API_KEY in your .env to enable TTS."
+            )
+
     async def get_voices(self) -> list[dict]:
+        self._require_api_key()
         if self._voices_cache and (time.time() - self._cache_time) < 300:
             return self._voices_cache
 
@@ -39,6 +51,7 @@ class TTSService:
     async def generate_speech(
         self, text: str, voice_id: str
     ) -> dict:
+        self._require_api_key()
         voice_name = None
         voices = await self.get_voices()
         for v in voices:

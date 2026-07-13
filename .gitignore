@@ -165,3 +165,4 @@ backend/audio_files/
 *.db
 frontend/node_modules/
 frontend/dist/
+*.tsbuildinfo

@@ -12,7 +12,13 @@ class LineManager:
 
     async def initialize(self) -> None:
         if settings.phone_bridge == "bluetooth":
-            from .bluetooth_bridge import BluetoothBridge
+            try:
+                from .bluetooth_bridge import BluetoothBridge
+            except ImportError as exc:
+                raise RuntimeError(
+                    "PHONE_BRIDGE=bluetooth is not implemented yet. "
+                    "Set PHONE_BRIDGE=mock in your .env until a real bridge ships."
+                ) from exc
             self._bridge = BluetoothBridge()
         else:
             self._bridge = MockBridge()

@@ -24,29 +24,56 @@ https://www.youtube.com/watch?v=tzXRb8PdmJo
 
 https://www.youtube.com/watch?v=FtgynBMUYF4
 
-## Files in this Repository
+## What's in this Repository
 
-- `voice_search_baiter.py`: This Python script drives a back-and-forth with the spammer following their specific script. It uses the PyAudio library to play the audio files and listens for silence to determine when the scammer has finished speaking.
+- `backend/` + `frontend/`: The **Spam Baiter Dashboard** — a FastAPI backend and React frontend for managing calls (mock bridge for now), contacts, a soundboard, and ElevenLabs TTS. This is where active development happens.
 
-- `requirements.txt`: This file lists the Python dependencies that need to be installed for the script to run.
+- `voice_search_baiter.py` *(legacy)*: The original v0.1 standalone script. It drives a back-and-forth with the spammer following their specific script, using PyAudio to play audio files and listening for silence to determine when the scammer has finished speaking.
 
-- Audio Files: The audio files are located in the `scammer_soundboard` directory. They are organized by the character who is speaking (in this case, "Walter Nelson") and further divided into different categories based on the type of response.
+- `s3cure_communications.py` *(legacy)*: A standalone generator for challenge-phrase messages to detect compromised text conversations.
 
-## How to Use
+- `scammer_soundboard/`: Pre-recorded audio clips, organized by the character who is speaking (currently "Walter Nelson") and further divided into categories based on the type of response. Used by both the legacy script and the dashboard.
 
-1. Clone this repository to your local machine.
+- `requirements.txt` *(legacy)*: Dependencies for `voice_search_baiter.py` only. Note: these pins require Python ≤ 3.10; the dashboard backend targets Python 3.12.
 
-2. Install the required Python dependencies by running `pip install -r requirements.txt`.
+## Dashboard Quickstart
 
-3. Run the `voice_search_baiter.py` script. The script will start listening for the scammer to speak and will respond with the appropriate pre-recorded audio file when the scammer stops speaking.
+Backend (Python 3.11+):
 
-Please note that the script is currently set up to use specific input and output devices. You may need to adjust the device indices in the `voice_search_baiter()` function to match your system's configuration.
+```bash
+cd backend
+pip install -r requirements.txt
+uvicorn app.main:app --reload
+```
 
-## Dependencies
+Frontend (Node 20+):
 
-- Python
-- PyAudio
-- numpy
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+Then open http://localhost:5173. Optional configuration goes in a `.env` file at the repo root (see `.env.example`):
+
+- `ELEVENLABS_API_KEY` enables the TTS panel; without it, TTS endpoints return 503 and the rest of the dashboard works normally.
+- `PHONE_BRIDGE=mock` is the only working bridge today — real telephony integration is on the roadmap.
+
+Run the backend tests with:
+
+```bash
+cd backend
+pip install -r requirements-dev.txt
+pytest tests/
+```
+
+## Legacy Script Usage
+
+1. Install the legacy dependencies: `pip install -r requirements.txt` (requires Python ≤ 3.10).
+
+2. Run `voice_search_baiter.py`. The script will start listening for the scammer to speak and will respond with the appropriate pre-recorded audio file when the scammer stops speaking.
+
+Please note that the script is currently set up to use specific input and output devices (indices 5 and 19). You will likely need to adjust the device indices in the `voice_search_baiter()` function to match your system's configuration.
 
 ## Roadmap
 The script (v0.1) uses pre-recorded audio files to respond to the spammers' prompts.
