@@ -60,6 +60,34 @@ export interface LegacyClip {
   display_order?: number;
 }
 
+export interface ModuleClip {
+  id: number;
+  kind: "script" | "filler";
+  label: string;
+  file_path: string;
+  tier?: number | null;
+  expected_duration?: number | null;
+  position: number;
+}
+
+export interface ModuleSummary {
+  id: number;
+  name: string;
+  description?: string | null;
+  script_count: number;
+  filler_count: number;
+  updated_at: string;
+}
+
+export interface BaitModule {
+  id: number;
+  name: string;
+  description?: string | null;
+  created_at: string;
+  updated_at: string;
+  clips: ModuleClip[];
+}
+
 export interface RoutingMatrix {
   routes: Record<string, Record<string, boolean>>;
   mic_muted: boolean;

@@ -9,8 +9,9 @@ from fastapi.staticfiles import StaticFiles
 from .config import settings
 from .database import engine
 from .models import Base
-from .routers import audio, contacts, lines, soundboard, tts
+from .routers import audio, contacts, lines, modules, soundboard, tts
 from .services.line_manager import line_manager
+from .services.module_seed import seed_modules
 from .services.soundboard_service import soundboard_service
 from .ws.handler import manager
 
@@ -22,6 +23,7 @@ async def lifespan(app: FastAPI):
 
     os.makedirs(settings.audio_files_dir, exist_ok=True)
     await soundboard_service.scan_legacy_clips()
+    await seed_modules()
     await line_manager.initialize()
 
     yield
@@ -56,6 +58,7 @@ app.include_router(lines.router, prefix="/api/lines", tags=["lines"])
 app.include_router(tts.router, prefix="/api/tts", tags=["tts"])
 app.include_router(soundboard.router, prefix="/api/soundboard", tags=["soundboard"])
 app.include_router(audio.router, prefix="/api/audio", tags=["audio"])
+app.include_router(modules.router, prefix="/api/modules", tags=["modules"])
 
 
 @app.websocket("/ws")

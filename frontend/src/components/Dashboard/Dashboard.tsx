@@ -6,14 +6,10 @@ import TTSPanel from "../TTSPanel/TTSPanel";
 
 export default function Dashboard() {
   return (
-    <div className="flex flex-col h-screen overflow-hidden bg-surface text-gray-100">
+    <div className="flex flex-col h-full overflow-hidden bg-surface text-gray-100">
       {/* Top bar: contact management */}
       <header className="flex-shrink-0 border-b border-gray-700 bg-surface-light">
         <div className="flex items-center gap-3 px-4 py-2">
-          <span className="text-sm font-bold text-accent-blue tracking-wider uppercase">
-            Spam Baiter
-          </span>
-          <div className="w-px h-4 bg-gray-700" />
           <ContactPanel />
         </div>
       </header>

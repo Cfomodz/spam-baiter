@@ -1,4 +1,5 @@
 from datetime import datetime
+from typing import Literal
 
 from pydantic import BaseModel
 
@@ -97,6 +98,59 @@ class LegacyClipOut(BaseModel):
     display_order: int | None
 
     model_config = {"from_attributes": True}
+
+
+class ModuleCreate(BaseModel):
+    name: str
+    description: str | None = None
+
+
+class ModuleUpdate(BaseModel):
+    name: str | None = None
+    description: str | None = None
+
+
+class ModuleClipOut(BaseModel):
+    id: int
+    kind: str
+    label: str
+    file_path: str
+    tier: int | None
+    expected_duration: float | None
+    position: int
+
+    model_config = {"from_attributes": True}
+
+
+class ModuleClipUpdate(BaseModel):
+    label: str | None = None
+    tier: int | None = None
+    expected_duration: float | None = None
+
+
+class ModuleSummaryOut(BaseModel):
+    id: int
+    name: str
+    description: str | None
+    script_count: int
+    filler_count: int
+    updated_at: datetime
+
+
+class ModuleOut(BaseModel):
+    id: int
+    name: str
+    description: str | None
+    created_at: datetime
+    updated_at: datetime
+    clips: list[ModuleClipOut] = []
+
+    model_config = {"from_attributes": True}
+
+
+class ModuleReorderRequest(BaseModel):
+    kind: Literal["script", "filler"]
+    clip_ids: list[int]
 
 
 class RouteToggle(BaseModel):
