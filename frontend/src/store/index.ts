@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import type {
   ContactGroup,
+  GenerationProgress,
   LegacyClip,
   Line,
   RoutingMatrix,
@@ -34,6 +35,9 @@ interface AppState {
 
   playingClipId: string | null;
   setPlayingClipId: (id: string | null) => void;
+
+  generationProgress: Record<number, GenerationProgress>;
+  setGenerationProgress: (progress: GenerationProgress) => void;
 }
 
 export const useStore = create<AppState>((set) => ({
@@ -76,4 +80,13 @@ export const useStore = create<AppState>((set) => ({
 
   playingClipId: null,
   setPlayingClipId: (id) => set({ playingClipId: id }),
+
+  generationProgress: {},
+  setGenerationProgress: (progress) =>
+    set((s) => ({
+      generationProgress: {
+        ...s.generationProgress,
+        [progress.module_id]: progress,
+      },
+    })),
 }));

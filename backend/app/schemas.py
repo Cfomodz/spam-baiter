@@ -153,6 +153,26 @@ class ModuleReorderRequest(BaseModel):
     clip_ids: list[int]
 
 
+class TemplateOut(BaseModel):
+    key: str
+    name: str
+    description: str
+    script_count: int
+    filler_count: int
+
+
+class ModuleGenerateRequest(BaseModel):
+    name: str
+    voice_id: str
+    template_key: str | None = None
+    source_module_id: int | None = None
+
+
+class ModuleGenerateOut(BaseModel):
+    module: ModuleOut
+    total_lines: int
+
+
 class RouteToggle(BaseModel):
     source: str
     line_id: str

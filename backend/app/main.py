@@ -59,6 +59,9 @@ app.include_router(tts.router, prefix="/api/tts", tags=["tts"])
 app.include_router(soundboard.router, prefix="/api/soundboard", tags=["soundboard"])
 app.include_router(audio.router, prefix="/api/audio", tags=["audio"])
 app.include_router(modules.router, prefix="/api/modules", tags=["modules"])
+app.include_router(
+    modules.templates_router, prefix="/api/templates", tags=["templates"]
+)
 
 
 @app.websocket("/ws")

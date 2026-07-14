@@ -1,5 +1,23 @@
-import type { BaitModule, ModuleClip, ModuleSummary } from "../types";
+import type {
+  BaitModule,
+  ModuleClip,
+  ModuleSummary,
+  ReplyTemplate,
+} from "../types";
 import { del, get, post, put } from "./client";
+
+export const getTemplates = () => get<ReplyTemplate[]>("/api/templates");
+
+export const generateModule = (body: {
+  name: string;
+  voice_id: string;
+  template_key?: string;
+  source_module_id?: number;
+}) =>
+  post<{ module: BaitModule; total_lines: number }>(
+    "/api/modules/generate",
+    body,
+  );
 
 export const getModules = () => get<ModuleSummary[]>("/api/modules");
 

@@ -48,17 +48,9 @@ class TTSService:
         self._cache_time = time.time()
         return self._voices_cache
 
-    async def generate_speech(
-        self, text: str, voice_id: str
-    ) -> dict:
+    async def synthesize(self, text: str, voice_id: str) -> bytes:
+        """Generate speech audio (mp3 bytes) for a single line of text."""
         self._require_api_key()
-        voice_name = None
-        voices = await self.get_voices()
-        for v in voices:
-            if v["voice_id"] == voice_id:
-                voice_name = v["name"]
-                break
-
         async with httpx.AsyncClient() as client:
             resp = await client.post(
                 f"https://api.elevenlabs.io/v1/text-to-speech/{voice_id}",
@@ -74,11 +66,29 @@ class TTSService:
                 timeout=60,
             )
             resp.raise_for_status()
+        return resp.content
+
+    async def get_voice_name(self, voice_id: str) -> str | None:
+        """Best-effort voice name lookup; never raises."""
+        try:
+            for v in await self.get_voices():
+                if v["voice_id"] == voice_id:
+                    return v["name"]
+        except Exception:
+            pass
+        return None
+
+    async def generate_speech(
+        self, text: str, voice_id: str
+    ) -> dict:
+        self._require_api_key()
+        voice_name = await self.get_voice_name(voice_id)
+        content = await self.synthesize(text, voice_id)
 
         clip_id = str(uuid.uuid4())[:12]
         filename = f"{clip_id}.mp3"
         filepath = Path(settings.audio_files_dir) / filename
-        filepath.write_bytes(resp.content)
+        filepath.write_bytes(content)
 
         return {
             "id": clip_id,

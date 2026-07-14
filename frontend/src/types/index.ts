@@ -88,6 +88,25 @@ export interface BaitModule {
   clips: ModuleClip[];
 }
 
+export interface ReplyTemplate {
+  key: string;
+  name: string;
+  description: string;
+  script_count: number;
+  filler_count: number;
+}
+
+export interface GenerationProgress {
+  module_id: number;
+  status: "running" | "complete";
+  done: number;
+  total: number;
+  failed: number;
+  current?: string;
+  error?: string;
+  failed_labels?: string[];
+}
+
 export interface RoutingMatrix {
   routes: Record<string, Record<string, boolean>>;
   mic_muted: boolean;
@@ -114,4 +133,5 @@ export type WSMessage =
       type: "playback_state";
       payload: { clip_id: string; state: "playing" | "stopped"; line_ids: string[] };
     }
+  | { type: "module_generation"; payload: GenerationProgress }
   | { type: "error"; payload: { message: string } };

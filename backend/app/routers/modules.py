@@ -14,13 +14,33 @@ from ..schemas import (
     ModuleClipOut,
     ModuleClipUpdate,
     ModuleCreate,
+    ModuleGenerateOut,
+    ModuleGenerateRequest,
     ModuleOut,
     ModuleReorderRequest,
     ModuleSummaryOut,
     ModuleUpdate,
+    TemplateOut,
 )
+from ..services import module_generation
+from ..services.module_templates import TEMPLATES, lines_from_module
 
 router = APIRouter()
+templates_router = APIRouter()
+
+
+@templates_router.get("", response_model=list[TemplateOut])
+async def list_templates():
+    return [
+        TemplateOut(
+            key=t.key,
+            name=t.name,
+            description=t.description,
+            script_count=sum(1 for l in t.lines if l.kind == "script"),
+            filler_count=sum(1 for l in t.lines if l.kind == "filler"),
+        )
+        for t in TEMPLATES.values()
+    ]
 
 ALLOWED_AUDIO_EXTENSIONS = {".wav", ".mp3", ".ogg", ".m4a", ".webm"}
 UPLOADS_SUBDIR = "modules"
@@ -92,6 +112,68 @@ async def create_module(body: ModuleCreate, db: AsyncSession = Depends(get_db)):
         )
     await db.refresh(module, attribute_names=["clips"])
     return module
+
+
+@router.post("/generate", response_model=ModuleGenerateOut)
+async def generate_module(
+    body: ModuleGenerateRequest, db: AsyncSession = Depends(get_db)
+):
+    """Create a module and voice all its lines via ElevenLabs.
+
+    Lines come from a built-in template (template_key) or an existing
+    module used as a template (source_module_id). Clips are generated in
+    the background; progress arrives as 'module_generation' websocket
+    messages.
+    """
+    if not settings.elevenlabs_api_key:
+        raise HTTPException(
+            status_code=503,
+            detail="ElevenLabs TTS is not configured. Set ELEVENLABS_API_KEY "
+            "in your .env to generate voiced modules.",
+        )
+
+    name = body.name.strip()
+    if not name:
+        raise HTTPException(status_code=400, detail="Name cannot be empty")
+    voice_id = body.voice_id.strip()
+    if not voice_id:
+        raise HTTPException(status_code=400, detail="voice_id cannot be empty")
+
+    if (body.template_key is None) == (body.source_module_id is None):
+        raise HTTPException(
+            status_code=400,
+            detail="Provide exactly one of template_key or source_module_id",
+        )
+
+    if body.template_key is not None:
+        template = TEMPLATES.get(body.template_key)
+        if not template:
+            raise HTTPException(status_code=404, detail="Template not found")
+        lines = list(template.lines)
+        description = f"{template.name} — voiced via ElevenLabs ({voice_id})"
+    else:
+        source = await _get_module(db, body.source_module_id)
+        lines = lines_from_module(source)
+        description = (
+            f"Copy of '{source.name}' — voiced via ElevenLabs ({voice_id})"
+        )
+
+    if not lines:
+        raise HTTPException(status_code=400, detail="Template has no lines")
+
+    module = BaitModule(name=name, description=description)
+    db.add(module)
+    try:
+        await db.commit()
+    except IntegrityError:
+        await db.rollback()
+        raise HTTPException(
+            status_code=409, detail=f"A module named '{name}' already exists"
+        )
+    await db.refresh(module, attribute_names=["clips"])
+
+    module_generation.start_generation(module.id, voice_id, lines)
+    return ModuleGenerateOut(module=module, total_lines=len(lines))
 
 
 @router.get("/{module_id}", response_model=ModuleOut)

@@ -4,8 +4,14 @@ import { useStore } from "../store";
 
 export function useWebSocket() {
   const wsRef = useRef<WebSocket | null>(null);
-  const { setLine, removeLine, setRouting, addClip, setPlayingClipId } =
-    useStore();
+  const {
+    setLine,
+    removeLine,
+    setRouting,
+    addClip,
+    setPlayingClipId,
+    setGenerationProgress,
+  } = useStore();
 
   useEffect(() => {
     let reconnectTimer: ReturnType<typeof setTimeout>;
@@ -44,6 +50,9 @@ export function useWebSocket() {
               msg.payload.state === "playing" ? msg.payload.clip_id : null,
             );
             break;
+          case "module_generation":
+            setGenerationProgress(msg.payload);
+            break;
         }
       };
 
@@ -59,5 +68,12 @@ export function useWebSocket() {
       clearTimeout(reconnectTimer);
       wsRef.current?.close();
     };
-  }, [setLine, removeLine, setRouting, addClip, setPlayingClipId]);
+  }, [
+    setLine,
+    removeLine,
+    setRouting,
+    addClip,
+    setPlayingClipId,
+    setGenerationProgress,
+  ]);
 }
